@@ -1,0 +1,41 @@
+﻿@model Pajoohesh_V2.Model.ViewModels.Branch.ForSite.ForRepository.Accounts.SignInVm
+@{
+    Layout = "_Layout2";
+}
+<body class="full-height">
+    <div class="login-register-bg" style="background-image: url('/images/login-register-bg.jpg');"></div>
+    <div class="login-register-card">
+        <h2 class="card-header">ورود به سایت</h2>
+        <div>
+            <form asp-area="Identity" asp-controller="Account" asp-action="Signin" method="POST">
+                <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+                <input type="text" placeholder="نام کاربری یا ایمیل" asp-for="UserName" class="single-form-input">
+                <span class="error-message"></span>
+                <input type="password" placeholder="کلمه عبور" asp-for="PassWord" class="single-form-input">
+                <span class="error-message"></span>
+                <div class="remember-me-wrap">
+                    <input type="checkbox" name="rememberMe" id="remember-me" asp-for="RememberMe" class="form-checkbox-input" />
+                    <label for="remember-me" class="form-checkbox-label">مرا به خاطر بسپار</label>
+                </div>
+                <button type="submit" class="btn btn-login full-width">ورود</button>
+                <a asp-area="Identity" asp-controller="Account" asp-action="ForgetPassword" class="btn btn-login full-width" style="margin-top: 10px;">رمز عبور خود را فراموش کرده ام</a>
+            </form>
+            <span class="splitter"></span>
+            @*<span class="another-login-register-way">یا</span>
+            <ul class="another-ways-list">
+                <li class="another-way-item">
+                    <a href="#" class="another-way-link mdi mdi-google"></a>
+                </li>
+            </ul>*@
+            <a asp-area="Identity" asp-controller="Account" asp-action="Signup" class="btn btn-switch-login-register full-width">
+                <span class="primary-text">حساب کاربری ندارید؟</span>
+                <span class="secondary-text">ساخت حساب کاربری</span>
+            </a>
+            <a asp-area="User" asp-controller="Home" asp-action="List" class="btn btn-home full-width">صفحه اصلی</a>
+        </div>
+    </div>
+
+    <!-- Start Scripts -->
+    <script src="~/jquery/jquery-3.6.0.js"></script>
+    <!-- End Scripts -->
+</body>

@@ -1,0 +1,289 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Pajoohesh_V2.Model.Models.Main.User
+@model Pajoohesh_V2.Model.ViewModels.Branch.ForSite.ForRepository.Films.FilmWatchVm
+@inject UserManager<User> _userManager
+@{
+    Layout = "_Layout";
+    User currentUser = null;
+    if (User.Identity.IsAuthenticated)
+    {
+        currentUser = await _userManager.FindByNameAsync(User.Identity.Name);
+    }
+}
+
+@section OtherClass
+{
+    hide
+}
+
+<div class="content">
+<div class="watch-content">
+<div class="watch-video-player">
+<div class="video-player-wrap">
+    @*<video id="player" playsinline controls data-poster="~/Media/Images/Film/@Model.ImageUrl" class="video-player">*@
+    <video id="player" playsinline controls data-poster="@Model.ImageUrl" class="video-player">
+        <source src="@Model.FilmUrl" type="video/mp4"/>
+    </video>
+</div>
+<div class="video-header">
+    <h3 class="video-header-title">@Model.Name</h3>
+    @*<h5 class="video-header-title">@Model.Name</h5>*@
+    <span id="watch-number-of-views" class="video-header-views mdi mdi-eye-outline">@Model.NumberOfViews</span>
+</div>
+<div class="video-header">
+    <h5 style="font-size: 13px;">@Model.Description</h5>
+</div>
+<div class="watch-video-some-info">
+    <div class="video-some-info-user-wrap">
+        <span class="video-some-info-user"
+              style="background-image: url('/Media/Images/User/@Model.UploaderImage');">
+        </span>
+        <span class="video-some-info-user-name">@Model.Uploader</span>
+    </div>
+    <div class="video-some-info-links-wrap">
+        @if (User.Identity.IsAuthenticated)
+        {
+            <a id="watch-number-of-likes" class="btn-like like mdi mdi-cards-heart">@Model.NumberOfLikes</a>
+        }
+        <a class="btn-download mdi mdi-cloud-download-outline"></a>
+        <a class="btn-share mdi mdi-share-variant"></a>
+    </div>
+</div>
+<div class="watch-video-some-info">
+    <span class="video-some-info-upload-elapsed-time mdi mdi-alarm">@Model.UploadPastDateTime</span>
+    <a asp-area="User" asp-controller="Home" asp-action="ListBySubject" asp-route-subjectId="@Model.Subject.Id">
+        <span class="video-some-info-category mdi mdi-menu">@Model.Subject.Title</span>
+    </a>
+    <ul class="video-some-info-tags-list">
+        @foreach (var item in Model.Tags)
+        {
+            <li class="video-some-info-tag">
+                <a asp-area="User" asp-controller="Home" asp-action="ListByTag" asp-route-tagId="@item.Id" class="video-some-info-link">@item.Title</a>
+            </li>
+        }
+    </ul>
+</div>
+@if (User.Identity.IsAuthenticated)
+{
+    <form asp-area="User" asp-controller="Home" asp-action="AddComment" id="send-comment-form-watch" method="POST" class="watch-comment-form">
+        <span class="watch-comment-quote mdi mdi-format-quote-close"></span>
+        <div class="watch-comment-text-wrap">
+            <input type="hidden" name="filmId" value="@Model.Id"/>
+            <input type="hidden" name="userId" value="@currentUser?.Id"/>
+            <textarea name="commentText" id="txtMessage" class="watch-comment-text"
+                                  placeholder="دیدگاه خود را وارد کنید..."></textarea>
+            <button id="sendComment" type="submit" class="btn-comment-submit mdi mdi-send-circle"></button>
+        </div>
+    </form>
+}
+else
+{
+    <div class="login-message">
+        <h2 class="login-message-text">برای نظر دادن ابتدا وارد سایت شوید.</h2>
+        <a asp-area="Identity" asp-controller="Account" asp-action="Signin" asp-route-returnUrl="/User/Home/Watch/@Model.Id" class="btn btn-login-message">ورود</a>
+    </div>
+}
+<span class="watch-comment-border-bottom"></span>
+<ul id="comment-container" class="watch-comments-list">
+    @foreach (var item in Model.CommentListVm.CommentListBaseVms)
+    {
+        <li class="watch-comment-item">
+            <span class="video-some-info-user"
+                  style="background-image: url('@item.CreatorImage');">
+            </span>
+            <div class="watch-comment-main-content">
+                <span class="user-name">@item.Creator</span>
+                <span class="elapsed-time">@item.PastCreateDate</span>
+                <span class="comment">@item.Text</span>
+            </div>
+        </li>
+    }
+</ul>
+@if (Model.CommentListVm.CommentListBaseVms.Any())
+{
+    <ul class="pagination" style="margin-top: 20px">
+        @if (Model.CommentListVm.NumberOfPages <= 7)
+        {
+            for (int i = 0; i < Model.CommentListVm.NumberOfPages; i++)
+            {
+                if (Model.CommentListVm.CurrentPageNumber == i + 1)
+                {
+                    <li class="pagination-item">
+                        <a href="#" class="pagination-link" style="background-color: white; color: blue; border: 1px solid blue;">@(i + 1)</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="pagination-item">
+                        <a href="#" class="pagination-link">@(i + 1)</a>
+                    </li>
+                }
+            }
+        }
+        else
+        {
+            if (Model.CommentListVm.CurrentPageNumber <= 3 || Model.CommentListVm.CurrentPageNumber >= Model.CommentListVm.NumberOfPages - 2)
+            {
+                if (Model.CommentListVm.CurrentPageNumber <= 2 || Model.CommentListVm.CurrentPageNumber >= Model.CommentListVm.NumberOfPages - 1)
+                {
+                    if (Model.CommentListVm.CurrentPageNumber == 1)
+                    {
+                        <li class="pagination-item">
+                            <a href="#" class="pagination-link" style="background-color: white; color: blue; border: 1px solid blue;">1</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="pagination-item">
+                            <a href="#" class="pagination-link">2</a>
+                        </li>
+                    }
+
+                    if (Model.CommentListVm.CurrentPageNumber == 2)
+                    {
+                        <li class="pagination-item">
+                            <a href="#" class="pagination-link" style="background-color: white; color: blue; border: 1px solid blue;">2</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="pagination-item">
+                            <a href="#" class="pagination-link">2</a>
+                        </li>
+                    }
+
+                    <li class="pagination-item">
+                        <span class="pagination-disabled-link">...</span>
+                    </li>
+
+                    if (Model.CommentListVm.CurrentPageNumber == Model.CommentListVm.NumberOfPages - 1)
+                    {
+                        <li class="pagination-item">
+                            <a href="#" class="pagination-link" style="background-color: white; color: blue; border: 1px solid blue;">@(Model.CommentListVm.NumberOfPages - 1)</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="pagination-item">
+                            <a href="#" class="pagination-link">@(Model.CommentListVm.NumberOfPages - 1)</a>
+                        </li>
+                    }
+
+                    if (Model.CommentListVm.CurrentPageNumber == Model.CommentListVm.NumberOfPages)
+                    {
+                        <li class="pagination-item">
+                            <a href="#" class="pagination-link" style="background-color: white; color: blue; border: 1px solid blue;">@(Model.CommentListVm.NumberOfPages)</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="pagination-item">
+                            <a href="#" class="pagination-link">@(Model.CommentListVm.NumberOfPages)</a>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <li class="pagination-item">
+                        <a href="#" class="pagination-link">1</a>
+                    </li>
+                    <li class="pagination-item">
+                        <span class="pagination-disabled-link">...</span>
+                    </li>
+                    <li class="pagination-item">
+                        <a href="#" class="pagination-link" style="background-color: white; color: blue; border: 1px solid blue;">@(Model.CommentListVm.CurrentPageNumber)</a>
+                    </li>
+                    <li class="pagination-item">
+                        <span class="pagination-disabled-link">...</span>
+                    </li>
+                    <li class="pagination-item">
+                        <a href="#" class="pagination-link">@(Model.CommentListVm.NumberOfPages)</a>
+                    </li>
+                }
+            }
+            else
+            {
+                <li class="pagination-item">
+                    <a href="#" class="pagination-link">1</a>
+                </li>
+                <li class="pagination-item">
+                    <span class="pagination-disabled-link">...</span>
+                </li>
+                <li class="pagination-item">
+                    <a href="#" class="pagination-link" style="background-color: white; color: blue; border: 1px solid blue;">@(Model.CommentListVm.CurrentPageNumber)</a>
+                </li>
+                <li class="pagination-item">
+                    <span class="pagination-disabled-link">...</span>
+                </li>
+                <li class="pagination-item">
+                    <a href="#" class="pagination-link">@(Model.CommentListVm.NumberOfPages)</a>
+                </li>
+            }
+        }
+    </ul>
+}
+</div>
+<div class="watch-similar-videos">
+    <div class="similar-videos-header">
+        <h3 class="similar-videos-header-text">ویدئوهای مشابه</h3>
+    </div>
+    <ul class="similar-videos-list-items">
+        @foreach (var item in Model.RelatedFilmsVms)
+        {
+            <li class="similar-videos-item">
+                <a asp-area="User" asp-controller="Home" asp-action="Watch" asp-route-id="@item.Id" class="similar-video-item-link"></a>
+                <div class="similar-videos-item-content">
+                    <span class="similar-videos-item-image"
+                          style="background-image: url('@item.ImageUrl');">
+                    </span>
+                    <div class="similar-videos-info">
+                        <span class="similar-videos-item-film-name">@item.Name</span>
+                        <div class="similar-videos-content-bottom">
+                            <span class="similar-videos-item-upload-elapsed-time">@*@item.UploadDate (@item.UploadPastDateTime)*@ @item.UploadPastDateTime</span>
+                            <span class="similar-videos-item-views mdi mdi-eye-outline">@item.NumberOfViews</span>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+</div>
+</div>
+</div>
+
+@section Scripts
+{
+    <script src="https://cdn.plyr.io/3.6.8/plyr.js"></script>
+    <script>
+        const player = new Plyr('#player');
+    </script>
+    <script>
+        $(document).ready(function () {
+            //debugger;
+            $.ajax({
+                method: "POST",
+                url: "/User/Home/AddNumberOfView",
+                data: {
+                    "filmId":@Model.Id
+                },
+                success: function (response) {
+                    $("#watch-number-of-views").html(response);
+                }
+            });
+        });
+
+        $("#watch-number-of-likes").click(function() {
+            $.ajax({
+                method: "POST",
+                url: "/User/Home/LikeDisLikeFilm",
+                data: {
+                    "filmId":@Model.Id,
+                    "userId":"@currentUser?.Id"
+                },
+                success: function (response) {
+                    $("#watch-number-of-likes").html(response);
+                }
+            });
+        });
+    </script>
+}

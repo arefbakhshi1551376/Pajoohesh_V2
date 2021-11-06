@@ -1,0 +1,151 @@
+﻿@model Pajoohesh_V2.Model.ViewModels.Branch.ForSite.ForRepository.ContactUs.ContactUsListVm
+
+<div class="content">
+    @if (Model.ContactUsListBaseVms.Any())
+    {
+        <h2 class="content-header">لیست تماس ها</h2>
+        foreach (var item in Model.ContactUsListBaseVms)
+        {
+<div class="contact-card">
+    <span class="contact-card-title">@item.Subject</span>
+    <hr />
+    <span class="contact-card-message">@item.Text</span>
+    <hr />
+    <span class="contact-card-owner">ارسال شده توسط: @($"{item.SenderName} {item.SenderFamily}") در تاریخ @item.SendDate</span>
+    @if (item.IsReplied)
+    {
+        <span class="contact-card-reply">پاسخ داده شده توسط: @item.Replier در تاریخ @item.ReplyDate</span>
+    }
+    else
+    {
+        <span class="contact-card-reply" style="color: red;">هنوز پاسخی به این تماس داده نشده است!</span>
+    }
+    <div class="contact-card-actions">
+        <a asp-area="User" asp-controller="Contact" asp-action="Reply" asp-route-id="@item.Id" aspac class="btn">پاسخ</a>
+        <a asp-area="User" asp-controller="Contact" asp-action="Details" asp-route-id="@item.Id" aspac class="btn" style="margin-right: 5px; ">جزئیات</a>
+    </div>
+</div>
+        }
+
+        <ul class="pagination" style="margin-top: 20px">
+            @if (Model.NumberOfPages <= 7)
+            {
+                for (int i = 0; i < Model.NumberOfPages; i++)
+                {
+                    if (Model.CurrentPageNumber == i + 1)
+                    {
+                        <li class="pagination-item">
+                            <a href="#" class="pagination-link" style="background-color: white; color: blue; border: 1px solid blue;">@(i + 1)</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="pagination-item">
+                            <a href="#" class="pagination-link">@(i + 1)</a>
+                        </li>
+                    }
+                }
+            }
+            else
+            {
+                if (Model.CurrentPageNumber <= 3 || Model.CurrentPageNumber >= Model.NumberOfPages - 2)
+                {
+                    if (Model.CurrentPageNumber <= 2 || Model.CurrentPageNumber >= Model.NumberOfPages - 1)
+                    {
+                        if (Model.CurrentPageNumber == 1)
+                        {
+                            <li class="pagination-item">
+                                <a href="#" class="pagination-link" style="background-color: white; color: blue; border: 1px solid blue;">1</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="pagination-item">
+                                <a href="#" class="pagination-link">2</a>
+                            </li>
+                        }
+
+                        if (Model.CurrentPageNumber == 2)
+                        {
+                            <li class="pagination-item">
+                                <a href="#" class="pagination-link" style="background-color: white; color: blue; border: 1px solid blue;">2</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="pagination-item">
+                                <a href="#" class="pagination-link">2</a>
+                            </li>
+                        }
+
+                        <li class="pagination-item">
+                            <span class="pagination-disabled-link">...</span>
+                        </li>
+
+                        if (Model.CurrentPageNumber == Model.NumberOfPages - 1)
+                        {
+                            <li class="pagination-item">
+                                <a href="#" class="pagination-link" style="background-color: white; color: blue; border: 1px solid blue;">@(Model.NumberOfPages - 1)</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="pagination-item">
+                                <a href="#" class="pagination-link">@(Model.NumberOfPages - 1)</a>
+                            </li>
+                        }
+
+                        if (Model.CurrentPageNumber == Model.NumberOfPages)
+                        {
+                            <li class="pagination-item">
+                                <a href="#" class="pagination-link" style="background-color: white; color: blue; border: 1px solid blue;">@(Model.NumberOfPages)</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="pagination-item">
+                                <a href="#" class="pagination-link">@(Model.NumberOfPages)</a>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <li class="pagination-item">
+                            <a href="#" class="pagination-link">1</a>
+                        </li>
+                        <li class="pagination-item">
+                            <span class="pagination-disabled-link">...</span>
+                        </li>
+                        <li class="pagination-item">
+                            <a href="#" class="pagination-link" style="background-color: white; color: blue; border: 1px solid blue;">@(Model.CurrentPageNumber)</a>
+                        </li>
+                        <li class="pagination-item">
+                            <span class="pagination-disabled-link">...</span>
+                        </li>
+                        <li class="pagination-item">
+                            <a href="#" class="pagination-link">@(Model.NumberOfPages)</a>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <li class="pagination-item">
+                        <a href="#" class="pagination-link">1</a>
+                    </li>
+                    <li class="pagination-item">
+                        <span class="pagination-disabled-link">...</span>
+                    </li>
+                    <li class="pagination-item">
+                        <a href="#" class="pagination-link" style="background-color: white; color: blue; border: 1px solid blue;">@(Model.CurrentPageNumber)</a>
+                    </li>
+                    <li class="pagination-item">
+                        <span class="pagination-disabled-link">...</span>
+                    </li>
+                    <li class="pagination-item">
+                        <a href="#" class="pagination-link">@(Model.NumberOfPages)</a>
+                    </li>
+                }
+            }
+        </ul>
+    }
+</div>

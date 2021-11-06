@@ -1,0 +1,194 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Pajoohesh_V2.Data.Initializer
+@using Pajoohesh_V2.Data.Repoditory.IData.Trunk
+@using Pajoohesh_V2.Model.Models.Main.User
+@using Pajoohesh_V2.Utility
+@inject SignInManager<User> _signInManager
+@inject UserManager<User> _userManager
+@inject IUnitOfWork _unitOfWork;
+@{
+    User currentUser = null;
+    var isAdmin = false;
+    if (User.Identity.IsAuthenticated)
+    {
+        var userName = User.Identity.Name;
+        currentUser = await _userManager.FindByNameAsync(userName);
+        isAdmin = await _userManager.IsInRoleAsync(currentUser, Constants.AdminRole);
+
+    }
+
+    var subjects = (await _unitOfWork.SubjectRepository.GetAllAsync()).RefineSubjects();
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پژوهش</title>
+
+    <!-- Start Css -->
+    <link href="~/css/css/materialdesignicons.css" rel="stylesheet" />
+    <link href="~/css/css/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css" />
+    @await RenderSectionAsync("OtherCss", false);
+    <!-- End Css -->
+</head>
+
+<body>
+    <header id="header">
+        <nav id="navbar">
+            <div class="navbar-content">
+                <div class="navbar-brand">
+                    <a class="side-menu-toggle mdi mdi-menu" onclick="changeSideMenuVisibility()"></a>
+                    <div class="navbar-brand-wrap">
+                        <img src="~/images/research.jpg" title="Brand" class="navbar-brand-image">
+                    </div>
+                </div>
+                <div class="navbar-search">
+                    <form method="GET" asp-area="User" asp-controller="Home" asp-action="Search" asp-route-pageNumber="1" class="navbar-search-form">
+                        <input type="text" class="navbar-search-input"
+                               placeholder="برای جستجو عبارت مورد نظر را وارد کنید..." name="statement">
+                    </form>
+                </div>
+                <div class="navbar-actions">
+                    @if (isAdmin)
+                    {
+                    <a asp-area="Admin" asp-controller="Film" asp-action="Add" class="btn">بارگذاری ویدئو</a>
+                    }
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                    <a class="btn btn-register-login">@($"{currentUser?.Name} {currentUser?.Family}")</a>
+                    }
+                    else
+                    {
+                    <a asp-area="Identity" asp-controller="Account" asp-action="Signin" class="btn btn-register-login">ورود یا ثبت نام</a>
+                    }
+                </div>
+            </div>
+        </nav>
+    </header>
+    <section id="main-content">
+        <div id="side-menu" class="side-menu @RenderSection("OtherClass",false)">
+            <ul class="side-menu-list-items">
+                <li class="side-menu-item">
+                    <a asp-area="User" asp-controller="Home" asp-action="List" class="side-menu-item-link active">
+                        <span class="side-menu-item-icon mdi mdi-home"></span>
+                        <span class="side-menu-item-text">صفحه اصلی</span>
+                    </a>
+                </li>
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <li class="side-menu-item">
+                        <a asp-area="Identity" asp-controller="Account" asp-action="Signin" class="side-menu-item-link">
+                            <span class="side-menu-item-icon mdi mdi-door-open"></span>
+                            <span class="side-menu-item-text">ورود</span>
+                        </a>
+                    </li>
+                    <li class="side-menu-item">
+                        <a asp-area="Identity" asp-controller="Account" asp-action="Signup" class="side-menu-item-link">
+                            <span class="side-menu-item-icon mdi mdi-door-open"></span>
+                            <span class="side-menu-item-text">ثبت نام</span>
+                        </a>
+                    </li>
+                }
+            </ul>
+            @if (subjects.Any())
+            {
+            <span class="menu-splitter"></span>
+            <h3 class="side-menu-header">دسته بندی ها</h3>
+            <ul class="side-menu-list-items">
+                @foreach (var item in subjects)
+                    {
+                <li class="side-menu-item">
+                    <a asp-area="User" asp-controller="Home" asp-action="ListBySubject" asp-route-subjectId="@item.Id" class="side-menu-item-link">
+                        <span class="side-menu-item-icon mdi mdi-volleyball"></span>
+                        <span class="side-menu-item-text">@item.Title</span>
+                    </a>
+                </li>
+                    }
+            </ul>
+            }
+            @if (User.Identity.IsAuthenticated)
+            {
+            <span class="menu-splitter"></span>
+
+            <h3 class="side-menu-header">پروفایل</h3>
+            <ul class="side-menu-list-items">
+                @if (isAdmin)
+                    {
+                <li class="side-menu-item">
+                    <a asp-area="Admin" asp-controller="Film" asp-action="List" class="side-menu-item-link">
+                        <span class="side-menu-item-icon mdi mdi-video-vintage"></span>
+                        <span class="side-menu-item-text">ورود به بخش مدیریت</span>
+                    </a>
+                </li>
+                <li class="side-menu-item">
+                    <a asp-area="Admin" asp-controller="User" asp-action="List" class="side-menu-item-link">
+                        <span class="side-menu-item-icon mdi mdi-video-vintage"></span>
+                        <span class="side-menu-item-text">کاربران</span>
+                    </a>
+                </li>
+                <li class="side-menu-item">
+                    <a asp-area="Admin" asp-controller="Subject" asp-action="List" class="side-menu-item-link">
+                        <span class="side-menu-item-icon mdi mdi-video-vintage"></span>
+                        <span class="side-menu-item-text">موضوعات</span>
+                    </a>
+                </li>
+                <li class="side-menu-item">
+                    <a asp-area="Admin" asp-controller="Tag" asp-action="List" class="side-menu-item-link">
+                        <span class="side-menu-item-icon mdi mdi-video-vintage"></span>
+                        <span class="side-menu-item-text">تگ ها</span>
+                    </a>
+                </li>
+                <li class="side-menu-item">
+                    <a asp-area="User" asp-controller="Contact" asp-action="List" class="side-menu-item-link">
+                        <span class="side-menu-item-icon mdi mdi-video-vintage"></span>
+                        <span class="side-menu-item-text">لیست تماس ها</span>
+                    </a>
+                </li>
+                    }
+
+                <li class="side-menu-item">
+                    <a asp-area="Identity" asp-controller="Account" asp-action="Edit" asp-route-id="@currentUser?.Id" class="side-menu-item-link">
+                        <span class="side-menu-item-icon mdi mdi-account-edit-outline"></span>
+                        <span class="side-menu-item-text">ویرایش اطلاعات شخصی</span>
+                    </a>
+                </li>
+                <li class="side-menu-item">
+                    <a asp-area="Identity" asp-controller="Account" asp-action="SignOut" asp-route-id="@currentUser?.Id" class="side-menu-item-link">
+                        <span class="side-menu-item-icon mdi mdi-account-edit-outline"></span>
+                        <span class="side-menu-item-text">خروج از حساب کاربری</span>
+                    </a>
+                </li>
+
+            </ul>
+            }
+            <span class="menu-splitter"></span>
+            <ul class="side-menu-list-items">
+                <li class="side-menu-item">
+                    <a asp-area="User" asp-controller="Contact" asp-action="Add" class="side-menu-item-link">
+                        <span class="side-menu-item-icon mdi mdi-message-reply"></span>
+                        <span class="side-menu-item-text">تماس با ما</span>
+                    </a>
+                </li>
+                <li class="side-menu-item">
+                    <a asp-area="User" asp-controller="About" asp-action="AboutUs" class="side-menu-item-link">
+                        <span class="side-menu-item-icon mdi mdi-information-outline"></span>
+                        <span class="side-menu-item-text">درباره ما</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        @RenderBody()
+    </section>
+
+    <!-- Start Scripts -->
+    <script src="~/jquery/jquery-3.6.0.js"></script>
+    <script src="~/js/js/script.js"></script>
+    @await RenderSectionAsync("Scripts", false);
+    <!-- End Scripts -->
+</body>
+
+</html>

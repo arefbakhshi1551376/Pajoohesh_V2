@@ -1,0 +1,16 @@
+﻿@model Pajoohesh_V2.Model.ViewModels.Branch.ForSite.ForRepository.Comments.CommentListVm
+
+
+    @foreach (var item in Model.CommentListBaseVms)
+    {
+        <li class="watch-comment-item">
+            <span class="video-some-info-user"
+                  style="background-image: url('images/sample-image-2.jpg');"></span>
+            <div class="watch-comment-main-content">
+                <span class="user-name">نام کاربر</span>
+                <span class="elapsed-time">20 ساعت پیش</span>
+                <span class="comment">دیدگاه کاربر...</span>
+            </div>
+        </li>
+    }
+    <a href="#" class="btn btn-load-more">بارگذاری موارد بیشتر</a>

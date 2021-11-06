@@ -1,0 +1,27 @@
+﻿@model Pajoohesh_V2.Model.ViewModels.Branch.ForSite.ForRepository.Subjects.SubjectAddVm
+
+<div class="content">
+    <h2 class="content-header">افزودن موضوع جدید</h2>
+    <form asp-area="Admin" asp-controller="Subject" asp-action="Add" method="POST" class="profile-form" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="" class="form-label">عنوان موضوع:</label>
+            <input type="text" class="form-input" asp-for="Title">
+        </div>
+        <div class="form-group">
+            <label for="" class="form-label">وضعیت:</label>
+            <select class="form-input form-input-select" asp-for="State">
+                <option value="1">فعال</option>
+                <option value="0">غیر فعال</option>
+            </select>
+        </div>
+        <div class="form-group" style="display: block; width: 100%;">
+            <label for="image" class="form-label">عکس:</label>
+            <div class="form-file">
+                <label for="image" class="form-file-label">انتخاب فایل</label>
+                <input type="file" class="form-file-input" id="image" asp-for="ImageUrl"  accept="image/png, image/jpeg, image/jpg">
+                <span class="form-file-name">...</span>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-load-more">ذخیره</button>
+    </form>
+</div>

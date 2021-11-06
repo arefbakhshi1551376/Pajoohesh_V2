@@ -1,0 +1,15 @@
+﻿@model string
+@{
+    Layout = "_Layout2";
+}
+<body class="full-height">
+    <div class="login-register-bg" style="background-image: url('/images/login-register-bg.jpg');"></div>
+    <div class="login-register-card">
+        <h2 class="card-header">@Model</h2>
+        <a asp-area="User" asp-controller="Home" asp-action="List" class="btn btn-login full-width" style="margin-top: 10px;">بازگشت به صفحه اصلی</a>
+    </div>
+
+    <!-- Start Scripts -->
+    <script src="~/jquery/jquery-3.6.0.js"></script>
+    <!-- End Scripts -->
+</body>

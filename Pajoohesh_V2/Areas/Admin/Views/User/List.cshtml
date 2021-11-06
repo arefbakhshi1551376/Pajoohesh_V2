@@ -1,0 +1,172 @@
+﻿@model Pajoohesh_V2.Model.ViewModels.Branch.ForSite.ForRepository.Users.UserListVm
+
+<div class="content">
+    <div class="content-header-wrap">
+        <h2 class="content-header">لیست کاربران ها</h2>
+        <a asp-area="Admin" asp-controller="User" asp-action="Add" class="content-header-link">اضافه کردن کاربر جدید</a>
+    </div>
+    <table class="table">
+        <thead class="table-header">
+            <tr>
+                <th class="table-header-title flex-1">شناسه</th>
+                <th class="table-header-title flex-2">نام و نام خانوادگی</th>
+                <th class="table-header-title flex-2">تاریخ پیوستن</th>
+                <th class="table-header-title flex-3">گزینه های بیشتر</th>
+            </tr>
+        </thead>
+        <tbody class="table-body">
+            @foreach (var item in Model.UserListBaseVms)
+            {
+                <tr class="table-row">
+                    <td class="table-row-item flex-1">@item.Id</td>
+                    <td class="table-row-item flex-2">@item.FullName</td>
+                    <td class="table-row-item flex-2">@item.RegisterDate</td>
+                    <td class="table-row-item flex-3">
+                        <a asp-area="Admin" asp-controller="User" asp-action="Edit" asp-route-id="@item.Id" class="table-row-item-action">ویرایش</a>
+                        <a asp-area="Admin" asp-controller="User" asp-action="Delete" asp-route-id="@item.Id" class="table-row-item-action">حذف</a>
+                        @if (item.IsAdmin)
+                        {
+                            <a asp-area="Admin" asp-controller="User" asp-action="AddRemoveAdmin" asp-route-id="@item.Id" class="table-row-item-action">خلع از مدیریت</a>
+                        }
+                        else
+                        {
+                            <a asp-area="Admin" asp-controller="User" asp-action="AddRemoveAdmin" asp-route-id="@item.Id" class="table-row-item-action">ارتقا به مدیریت</a>
+                        }
+                        @if (item.IsAccessValid)
+                        {
+                            <a asp-area="Admin" asp-controller="User" asp-action="ChangeAccess" asp-route-id="@item.Id" class="table-row-item-action">قطع دسترسی</a>
+                        }
+                        else
+                        {
+                            <a asp-area="Admin" asp-controller="User" asp-action="ChangeAccess" asp-route-id="@item.Id" class="table-row-item-action">اجازه دسترسی</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (Model.UserListBaseVms.Any())
+    {
+        <ul class="pagination" style="margin-top: 20px">
+            @if (Model.NumberOfPages <= 7)
+            {
+                for (int i = 0; i < Model.NumberOfPages; i++)
+                {
+                    if (Model.CurrentPageNumber == i + 1)
+                    {
+                        <li class="pagination-item">
+                            <a class="pagination-link" style="background-color: white; color: blue; border: 1px solid blue;">@(i+1)</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="pagination-item">
+                            <a asp-area="Admin" asp-controller="User" asp-action="List" asp-route-pageNumber="@(i+1)" class="pagination-link">@(i+1)</a>
+                        </li>
+                    }
+                }
+            }
+            else
+            {
+                if (Model.CurrentPageNumber <= 3 || Model.CurrentPageNumber >= Model.NumberOfPages - 2)
+                {
+                    if (Model.CurrentPageNumber <= 2 || Model.CurrentPageNumber >= Model.NumberOfPages - 1)
+                    {
+                        if (Model.CurrentPageNumber == 1)
+                        {
+                            <li class="pagination-item">
+                                <a class="pagination-link" style="background-color: white; color: blue; border: 1px solid blue;">1</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="pagination-item">
+                                <a asp-area="Admin" asp-controller="User" asp-action="List" asp-route-pageNumber="2" class="pagination-link">2</a>
+                            </li>
+                        }
+
+                        if (Model.CurrentPageNumber == 2)
+                        {
+                            <li class="pagination-item">
+                                <a class="pagination-link" style="background-color: white; color: blue; border: 1px solid blue;">2</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="pagination-item">
+                                <a asp-area="Admin" asp-controller="User" asp-action="List" asp-route-pageNumber="2" class="pagination-link">2</a>
+                            </li>
+                        }
+
+                        <li class="pagination-item">
+                            <span class="pagination-disabled-link">...</span>
+                        </li>
+
+                        if (Model.CurrentPageNumber == Model.NumberOfPages - 1)
+                        {
+                            <li class="pagination-item">
+                                <a class="pagination-link" style="background-color: white; color: blue; border: 1px solid blue;">@(Model.NumberOfPages - 1)</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="pagination-item">
+                                <a asp-area="Admin" asp-controller="User" asp-action="List" asp-route-pageNumber="@(Model.NumberOfPages - 1)" class="pagination-link">@(Model.NumberOfPages - 1)</a>
+                            </li>
+                        }
+
+                        if (Model.CurrentPageNumber == Model.NumberOfPages)
+                        {
+                            <li class="pagination-item">
+                                <a class="pagination-link" style="background-color: white; color: blue; border: 1px solid blue;">@(Model.NumberOfPages)</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="pagination-item">
+                                <a asp-area="Admin" asp-controller="User" asp-action="List" asp-route-pageNumber="@(Model.NumberOfPages)" class="pagination-link">@(Model.NumberOfPages)</a>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <li class="pagination-item">
+                            <a asp-area="Admin" asp-controller="User" asp-action="List" asp-route-pageNumber="1" class="pagination-link">1</a>
+                        </li>
+                        <li class="pagination-item">
+                            <span class="pagination-disabled-link">...</span>
+                        </li>
+                        <li class="pagination-item">
+                            <a class="pagination-link" style="background-color: white; color: blue; border: 1px solid blue;">@(Model.CurrentPageNumber)</a>
+                        </li>
+                        <li class="pagination-item">
+                            <span class="pagination-disabled-link">...</span>
+                        </li>
+                        <li class="pagination-item">
+                            <a asp-area="Admin" asp-controller="User" asp-action="List" asp-route-pageNumber="@(Model.NumberOfPages)" class="pagination-link">@(Model.NumberOfPages)</a>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <li class="pagination-item">
+                        <a asp-area="Admin" asp-controller="User" asp-action="List" asp-route-pageNumber="1" class="pagination-link">1</a>
+                    </li>
+                    <li class="pagination-item">
+                        <span class="pagination-disabled-link">...</span>
+                    </li>
+                    <li class="pagination-item">
+                        <a class="pagination-link" style="background-color: white; color: blue; border: 1px solid blue;">@(Model.CurrentPageNumber)</a>
+                    </li>
+                    <li class="pagination-item">
+                        <span class="pagination-disabled-link">...</span>
+                    </li>
+                    <li class="pagination-item">
+                        <a asp-area="Admin" asp-controller="User" asp-action="List" asp-route-pageNumber="@(Model.NumberOfPages)" class="pagination-link">@(Model.NumberOfPages)</a>
+                    </li>
+                }
+            }
+        </ul>
+    }
+</div>

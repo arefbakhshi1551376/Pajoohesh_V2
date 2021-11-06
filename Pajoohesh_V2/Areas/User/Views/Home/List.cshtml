@@ -1,0 +1,59 @@
+﻿@model Pajoohesh_V2.Model.ViewModels.Branch.ForSite.ForRepository.Films.FilmTheFirstPageListsVm
+@{
+    Layout = "_Layout";
+}
+
+<div class="content">
+    <div class="subject">
+        <div class="subject-header-wrap">
+            <h2 class="subject-header">پر بازدیدترین های هفت روز گذشته</h2>
+            <a asp-area="User" asp-controller="Home" asp-action="MostVisitedOfTheWeek" class="btn-subject">مشاهده بیشتر</a>
+        </div>
+        <div class="video-cards-wrap">
+            @if (Model.FilmMostVisitedOfTheWeekListVms.FilmListBaseVms.Any())
+            {
+                foreach (var modelFilmListBaseVm in Model.FilmMostVisitedOfTheWeekListVms.FilmListBaseVms)
+                {
+                    <div class="video-card">
+                        <a asp-area="User" asp-controller="Home" asp-action="Watch" asp-route-id="@modelFilmListBaseVm.Id" class="video-card-link"></a>
+                        <a asp-area="User" asp-controller="Home" asp-action="ListByUploader" asp-route-uploaderId="@modelFilmListBaseVm.UploaderId" class="video-card-owner" style="background-image: url('../Media/Images/User/@modelFilmListBaseVm.UploaderImage');"></a>
+                        <div class="video-card-image" style="background-image: url('@modelFilmListBaseVm.ImageUrl');"></div>
+                        <span class="video-card-film-name">@modelFilmListBaseVm.Name</span>
+                        <span class="video-card-film-desc">@modelFilmListBaseVm.Description</span>
+                        <span class="video-card-film-upload-date">@modelFilmListBaseVm.UploadDate (@modelFilmListBaseVm.UploadPastDateTime)</span>
+                    </div>
+                }
+            }
+            else
+            {
+                <span class="no-item">موردی برای نمایش وجود ندارد.</span>
+            }
+        </div>
+    </div>
+    <div class="subject">
+        <div class="subject-header-wrap">
+            <h2 class="subject-header">جدیدترین ویدئوها</h2>
+            <a asp-area="User" asp-controller="Home" asp-action="Newest" class="btn-subject">مشاهده بیشتر</a>
+        </div>
+        <div class="video-cards-wrap">
+            @if (Model.NewestFilms.FilmListBaseVms.Any())
+            {
+                foreach (var modelFilmListBaseVm in Model.NewestFilms.FilmListBaseVms)
+                {
+                    <div class="video-card">
+                        <a asp-area="User" asp-controller="Home" asp-action="Watch" asp-route-id="@modelFilmListBaseVm.Id" class="video-card-link"></a>
+                        <a asp-area="User" asp-controller="Home" asp-action="ListByUploader" asp-route-uploaderId="@modelFilmListBaseVm.UploaderId" class="video-card-owner" style="background-image: url('../Media/Images/User/@modelFilmListBaseVm.UploaderImage');"></a>
+                        <div class="video-card-image" style="background-image: url('@modelFilmListBaseVm.ImageUrl');"></div>
+                        <span class="video-card-film-name">@modelFilmListBaseVm.Name</span>
+                        <span class="video-card-film-desc">@modelFilmListBaseVm.Description</span>
+                        <span class="video-card-film-upload-date">@modelFilmListBaseVm.UploadDate (@modelFilmListBaseVm.UploadPastDateTime)</span>
+                    </div>
+                }
+            }
+            else
+            {
+                <span class="no-item">موردی برای نمایش وجود ندارد.</span>
+            }
+        </div>
+    </div>
+</div>

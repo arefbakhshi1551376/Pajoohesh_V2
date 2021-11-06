@@ -1,0 +1,20 @@
+﻿@model Pajoohesh_V2.Model.ViewModels.Branch.ForSite.ForRepository.ContactUs.ContactUsDetailsVm
+
+<div class="content">
+    <h2 class="content-header">جزئیات تماس</h2>
+    <div class="contact-card">
+        <span class="contact-card-title">@Model.Subject</span>
+        <hr />
+        <span class="contact-card-owner">ارسال شده توسط: @($"{Model.SenderName} {Model.SenderFamily}") در تاریخ @Model.SendDate</span>
+        <hr />
+        <span class="contact-card-message">@Model.Text</span>
+    </div>
+    <div class="contact-card">
+        <span class="contact-card-title">@Model.ReplySubject</span>
+        <hr />
+        <span class="contact-card-owner">پاسخ داده شده توسط: @Model.Replier در تاریخ @Model.ReplyDate</span>
+        <hr />
+        <span class="contact-card-message">@Model.ReplyText</span>
+    </div>
+    <a asp-area="User" asp-controller="Contact" asp-action="List" class="btn btn-load-more">بازگشت به لیست</a>
+</div>

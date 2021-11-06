@@ -1,0 +1,171 @@
+﻿@model Pajoohesh_V2.Model.ViewModels.Branch.ForSite.ForRepository.Tags.TagListVm
+
+<div class="content">
+    <div class="content-header-wrap">
+        <h2 class="content-header">لیست تگ ها</h2>
+        <a asp-area="Admin" asp-controller="Tag" asp-action="Add" class="content-header-link">اضافه کردن تگ جدید</a>
+    </div>
+    <table class="table">
+        <thead class="table-header">
+            <tr>
+                <th class="table-header-title flex-1">شناسه</th>
+                <th class="table-header-title flex-1">عنوان</th>
+                <th class="table-header-title flex-2">تعداد فیلم ها</th>
+                <th class="table-header-title flex-2">ایجاد کننده</th>
+                <th class="table-header-title flex-2">ویرایش کننده</th>
+                <th class="table-header-title flex-3">گزینه های بیشتر</th>
+            </tr>
+        </thead>
+        <tbody class="table-body">
+            @if (Model.TagListBaseVms.Any())
+            {
+                foreach (var item in Model.TagListBaseVms)
+                {
+                    <tr class="table-row">
+                        <td class="table-row-item flex-1">@item.Id</td>
+                        <td class="table-row-item flex-1">@item.Title</td>
+                        <td class="table-row-item flex-2">
+                            <a asp-area="User" asp-controller="Home" asp-action="ListByTag" asp-route-tagId="@item.Id" class="table-row-item-count">@item.NumberOfFilms</a>
+                        </td>
+                        <td class="table-row-item flex-2">
+                            <span class="table-row-item-span">@item.Creator</span>
+                            <span class="table-row-item-span lighter-span">@item.CreateDate</span>
+                        </td>
+                        <td class="table-row-item flex-2">
+                            <span class="table-row-item-span">@item.LastModifier</span>
+                            <span class="table-row-item-span lighter-span">@item.LastModifyDate</span>
+                        </td>
+                        <td class="table-row-item flex-3">
+                            <a asp-area="Admin" asp-controller="Tag" asp-action="Edit" asp-route-id="@item.Id" class="table-row-item-action">ویرایش</a>
+                            <a asp-area="Admin" asp-controller="Tag" asp-action="Delete" asp-route-id="@item.Id" class="table-row-item-action">حذف</a>
+                            <a asp-area="Admin" asp-controller="Tag" asp-action="Details" asp-route-id="@item.Id" class="table-row-item-action">جزئیات</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    @if (Model.TagListBaseVms.Any())
+    {
+        <ul class="pagination" style="margin-top: 20px">
+            @if (Model.NumberOfPages <= 7)
+            {
+                for (int i = 0; i < Model.NumberOfPages; i++)
+                {
+                    if (Model.CurrentPageNumber == i + 1)
+                    {
+                        <li class="pagination-item">
+                            <a class="pagination-link" style="background-color: white; color: blue; border: 1px solid blue;">@(i+1)</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="pagination-item">
+                            <a asp-area="Admin" asp-controller="Tag" asp-action="List" asp-route-pageNumber="@(i+1)" class="pagination-link">@(i+1)</a>
+                        </li>
+                    }
+                }
+            }
+            else
+            {
+                if (Model.CurrentPageNumber <= 3 || Model.CurrentPageNumber >= Model.NumberOfPages - 2)
+                {
+                    if (Model.CurrentPageNumber <= 2 || Model.CurrentPageNumber >= Model.NumberOfPages - 1)
+                    {
+                        if (Model.CurrentPageNumber == 1)
+                        {
+                            <li class="pagination-item">
+                                <a class="pagination-link" style="background-color: white; color: blue; border: 1px solid blue;">1</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="pagination-item">
+                                <a asp-area="Admin" asp-controller="Tag" asp-action="List" asp-route-pageNumber="2" class="pagination-link">2</a>
+                            </li>
+                        }
+
+                        if (Model.CurrentPageNumber == 2)
+                        {
+                            <li class="pagination-item">
+                                <a class="pagination-link" style="background-color: white; color: blue; border: 1px solid blue;">2</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="pagination-item">
+                                <a asp-area="Admin" asp-controller="Tag" asp-action="List" asp-route-pageNumber="2" class="pagination-link">2</a>
+                            </li>
+                        }
+
+                        <li class="pagination-item">
+                            <span class="pagination-disabled-link">...</span>
+                        </li>
+
+                        if (Model.CurrentPageNumber == Model.NumberOfPages - 1)
+                        {
+                            <li class="pagination-item">
+                                <a class="pagination-link" style="background-color: white; color: blue; border: 1px solid blue;">@(Model.NumberOfPages - 1)</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="pagination-item">
+                                <a asp-area="Admin" asp-controller="Tag" asp-action="List" asp-route-pageNumber="@(Model.NumberOfPages - 1)" class="pagination-link">@(Model.NumberOfPages - 1)</a>
+                            </li>
+                        }
+
+                        if (Model.CurrentPageNumber == Model.NumberOfPages)
+                        {
+                            <li class="pagination-item">
+                                <a class="pagination-link" style="background-color: white; color: blue; border: 1px solid blue;">@(Model.NumberOfPages)</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="pagination-item">
+                                <a asp-area="Admin" asp-controller="Tag" asp-action="List" asp-route-pageNumber="@(Model.NumberOfPages)" class="pagination-link">@(Model.NumberOfPages)</a>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <li class="pagination-item">
+                            <a asp-area="Admin" asp-controller="Tag" asp-action="List" asp-route-pageNumber="1" class="pagination-link">1</a>
+                        </li>
+                        <li class="pagination-item">
+                            <span class="pagination-disabled-link">...</span>
+                        </li>
+                        <li class="pagination-item">
+                            <a class="pagination-link" style="background-color: white; color: blue; border: 1px solid blue;">@(Model.CurrentPageNumber)</a>
+                        </li>
+                        <li class="pagination-item">
+                            <span class="pagination-disabled-link">...</span>
+                        </li>
+                        <li class="pagination-item">
+                            <a asp-area="Admin" asp-controller="Tag" asp-action="List" asp-route-pageNumber="@(Model.NumberOfPages)" class="pagination-link">@(Model.NumberOfPages)</a>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <li class="pagination-item">
+                        <a asp-area="Admin" asp-controller="Tag" asp-action="List" asp-route-pageNumber="1" class="pagination-link">1</a>
+                    </li>
+                    <li class="pagination-item">
+                        <span class="pagination-disabled-link">...</span>
+                    </li>
+                    <li class="pagination-item">
+                        <a class="pagination-link" style="background-color: white; color: blue; border: 1px solid blue;">@(Model.CurrentPageNumber)</a>
+                    </li>
+                    <li class="pagination-item">
+                        <span class="pagination-disabled-link">...</span>
+                    </li>
+                    <li class="pagination-item">
+                        <a asp-area="Admin" asp-controller="Tag" asp-action="List" asp-route-pageNumber="@(Model.NumberOfPages)" class="pagination-link">@(Model.NumberOfPages)</a>
+                    </li>
+                }
+            }
+        </ul>
+    }
+</div>

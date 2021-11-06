@@ -1,0 +1,24 @@
+﻿@model Pajoohesh_V2.Model.ViewModels.Branch.ForSite.ForRepository.Tags.TagDeleteVm
+
+<div class="content">
+    <h2 class="content-header">حذف تگ</h2>
+    <div class="delete-content">
+        @if (string.IsNullOrEmpty(Model.Message))
+        {
+            <span class="delete-content-title">آیا از حدف تگ @Model.Title مطمئن هستید؟</span>
+            <span class="delete-content-description">
+                <a asp-area="User" asp-controller="Home" asp-action="ListByTag" asp-route-tagId="@Model.Id" asp-route-pageNumber="1" class="delete-content-link">@Model.NumberOfFilms فیلم</a>
+                در زیرمجموعه این تگ وجود دارد.
+            </span>
+        }
+        else
+        {
+            <span class="delete-content-title">@Model.Message</span>
+        }
+        <span class="delete-content-warning">آیا از حدف این تگ مطمئن هستید؟</span>
+    </div>
+    <form asp-area="Admin" asp-controller="Tag" asp-action="Delete" method="POST" class="profile-form">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-load-more">حذف</button>
+    </form>
+</div>

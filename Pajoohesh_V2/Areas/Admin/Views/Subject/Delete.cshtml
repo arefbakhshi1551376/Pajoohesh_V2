@@ -1,0 +1,25 @@
+﻿@model Pajoohesh_V2.Model.ViewModels.Branch.ForSite.ForRepository.Subjects.SubjectDeleteVm
+
+<div class="content">
+    <h2 class="content-header">حذف موضوع</h2>
+    <div class="delete-content">
+        @if (string.IsNullOrEmpty(Model.Message))
+        {
+            <span class="delete-content-title">آیا از حدف موضوع @Model.Title مطمئن هستید؟</span>
+            <span class="delete-content-description">
+                <a asp-area="User" asp-controller="Home" asp-action="ListBySubject" asp-route-subjectId="@Model.Id" asp-route-pageNumber="1" class="delete-content-link">@Model.NumberOfFilms فیلم</a>
+                در زیرمجموعه این موضوع وجود دارد.
+            </span>
+        }
+        else
+        {
+            <span class="delete-content-title">@Model.Message</span>
+        }
+        <span class="delete-content-warning">آیا از حدف این موضوع مطمئن هستید؟</span>
+    </div>
+    <form asp-area="Admin" asp-controller="Subject" asp-action="Delete" method="POST" class="profile-form">
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="ImageUrl" />
+        <button type="submit" class="btn btn-load-more">حذف</button>
+    </form>
+</div>

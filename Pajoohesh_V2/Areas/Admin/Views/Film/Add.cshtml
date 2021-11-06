@@ -1,0 +1,69 @@
+﻿@model Pajoohesh_V2.Model.ViewModels.Branch.ForSite.ForRepository.Films.FilmAddVm
+@{
+    Layout = "_Layout";
+}
+<div class="content">
+    <h2 class="content-header">آپلود ویدئو</h2>
+    <form action="#" method="POST" class="profile-form" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="" class="form-label">نام فیلم:</label>
+            <input type="text" class="form-input" asp-for="Name">
+        </div>
+        <div class="form-group">
+            <label for="" class="form-label">موضوع:</label>
+            <select class="form-input form-input-select" asp-items="Model.SubjectSelectList" asp-for="SubjectId">
+                <option value="">انتخاب کنید...</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="" class="form-label">تگ ها:</label>
+            <input type="text" class="form-input" asp-for="Tags">
+            <span class="form-desc">برای جدا کردن تگ ها از '-' استفاده کنید.</span>
+        </div>
+        <div class="form-group">
+            <label for="" class="form-label">وضعیت:</label>
+            <select class="form-input form-input-select" asp-for="State">
+                <option value="1" selected="selected">فعال</option>
+                <option value="0">غیر فعال</option>
+            </select>
+            <span class="form-desc" style="opacity: 0;">AAAAAAAAA</span>
+        </div>
+        <div class="form-group full-width">
+            <label for="" class="form-label">توضیحات:</label>
+            <textarea class="form-input" asp-for="Description"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="image" class="form-label">عکس:</label>
+            <div class="form-file">
+                <label for="image" class="form-file-label">انتخاب فایل</label>
+                <input type="file" class="form-file-input" id="image" name="ImageUrl" accept="image/png, image/jpeg, image/jpg">
+                <span class="form-file-name">...</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="film" class="form-label">فیلم:</label>
+            <div class="form-file">
+                <label for="film" class="form-file-label">انتخاب فایل</label>
+                <input multiple type="file" class="form-file-input" id="film" name="FilmUrl" accept="video/*">
+                <span class="form-file-name">...</span>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-load-more">ذخیره</button>
+    </form>
+</div>
+
+@*@section Scripts
+{
+    <script src="https://cdn.tiny.cloud/1/lec7m2k78bhc9po7c0ybuoqlf1nt5ad7694erwujmso3tlh7/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'a11ychecker advcode casechange formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
+            toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table',
+            toolbar_mode: 'floating',
+            tinycomments_mode: 'embedded',
+            tinycomments_author: 'Author name',
+        });
+    </script>
+}*@

@@ -1,0 +1,19 @@
+﻿@model Pajoohesh_V2.Model.ViewModels.Branch.ForSite.ForRepository.Tags.TagAddVm
+
+<div class="content">
+    <h2 class="content-header">افزودن تگ جدید</h2>
+    <form asp-area="Admin" asp-controller="Tag" asp-action="Add" method="POST" class="profile-form" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="" class="form-label">عنوان تگ:</label>
+            <input type="text" class="form-input" id="name" asp-for="Title">
+        </div>
+        <div class="form-group">
+            <label for="" class="form-label">وضعیت:</label>
+            <select class="form-input form-input-select" asp-for="State">
+                <option value="1">فعال</option>
+                <option value="0">غیر فعال</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-load-more">ذخیره</button>
+    </form>
+</div>

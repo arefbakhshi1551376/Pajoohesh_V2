@@ -1,0 +1,33 @@
+﻿@model Pajoohesh_V2.Model.ViewModels.Branch.ForSite.ForRepository.AboutUs.AboutUsEditVm
+
+<div class="content">
+    <h2 class="content-header">اطلاعات سایت (درباره ما)</h2>
+    <form action="#" method="POST" class="profile-form">
+        <div class="form-group full-width">
+            <label for="" class="form-label">عنوان:</label>
+            <input type="text" class="form-input" asp-for="Title">
+        </div>
+        <div class="form-group full-width">
+            <label for="" class="form-label">توضیحات:</label>
+            <textarea class="form-input" asp-for="Text"></textarea>
+        </div>
+        <button type="submit" class="btn btn-load-more">ذخیره</button>
+    </form>
+</div>
+
+@section Scripts
+{
+    <script src="https://cdn.tiny.cloud/1/lec7m2k78bhc9po7c0ybuoqlf1nt5ad7694erwujmso3tlh7/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'a11ychecker advcode casechange formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
+            toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table',
+            toolbar_mode: 'floating',
+            tinycomments_mode: 'embedded',
+            tinycomments_author: 'Author name',
+        });
+    </script>
+
+}

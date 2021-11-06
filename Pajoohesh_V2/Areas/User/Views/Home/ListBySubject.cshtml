@@ -1,0 +1,150 @@
+﻿@model Pajoohesh_V2.Model.ViewModels.Branch.ForSite.ForRepository.Films.FilmListBySubjectVm
+@{
+    Layout = "_Layout";
+}
+
+<div class="content">
+    <h2 class="content-header">@Model.SubjectTitle</h2>
+    <div class="top-banner">
+        <a href="#" class="top-banner-image" style="background-image: url('/Media/Images/Subject/@Model.ImageUrl');"></a>
+        <a href="#" class="top-banner-text">فیلم های زیر مجموعه این موضوع</a>
+    </div>
+    <div class="subject">
+        <div class="video-cards-wrap">
+            @foreach (var item in Model.FilmListBaseVms)
+            {
+                <div class="video-card">
+                    <a asp-area="User" asp-controller="Home" asp-action="Watch" asp-route-id="@item.Id" class="video-card-link"></a>
+                    <div class="video-card-image" style="background-image: url('/Media/Images/Film/@item.ImageUrl');"></div>
+                    <span class="video-card-film-name">@item.Name</span>
+                    <span class="video-card-film-desc">@item.Description</span>
+                    <span class="video-card-film-upload-date">@item.UploadDate</span>
+                </div>
+            }
+        </div>
+    </div>
+
+    @if (Model.FilmListBaseVms.Any())
+    {
+        <ul class="pagination" style="margin-top: 20px">
+            @if (Model.NumberOfPages <= 7)
+            {
+                for (int i = 0; i < Model.NumberOfPages; i++)
+                {
+                    if (Model.CurrentPageNumber == i + 1)
+                    {
+                        <li class="pagination-item">
+                            <a class="pagination-link" style="background-color: white; color: blue; border: 1px solid blue;">@(i+1)</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="pagination-item">
+                            <a asp-area="User" asp-controller="Home" asp-action="ListBySubject" asp-route-pageNumber="@(i+1)" class="pagination-link">@(i+1)</a>
+                        </li>
+                    }
+                }
+            }
+            else
+            {
+                if (Model.CurrentPageNumber <= 3 || Model.CurrentPageNumber >= Model.NumberOfPages - 2)
+                {
+                    if (Model.CurrentPageNumber <= 2 || Model.CurrentPageNumber >= Model.NumberOfPages - 1)
+                    {
+                        if (Model.CurrentPageNumber == 1)
+                        {
+                            <li class="pagination-item">
+                                <a class="pagination-link" style="background-color: white; color: blue; border: 1px solid blue;">1</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="pagination-item">
+                                <a asp-area="User" asp-controller="Home" asp-action="ListBySubject" asp-route-pageNumber="2" class="pagination-link">2</a>
+                            </li>
+                        }
+
+                        if (Model.CurrentPageNumber == 2)
+                        {
+                            <li class="pagination-item">
+                                <a class="pagination-link" style="background-color: white; color: blue; border: 1px solid blue;">2</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="pagination-item">
+                                <a asp-area="User" asp-controller="Home" asp-action="ListBySubject" asp-route-pageNumber="2" class="pagination-link">2</a>
+                            </li>
+                        }
+
+                        <li class="pagination-item">
+                            <span class="pagination-disabled-link">...</span>
+                        </li>
+
+                        if (Model.CurrentPageNumber == Model.NumberOfPages - 1)
+                        {
+                            <li class="pagination-item">
+                                <a class="pagination-link" style="background-color: white; color: blue; border: 1px solid blue;">@(Model.NumberOfPages - 1)</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="pagination-item">
+                                <a asp-area="User" asp-controller="Home" asp-action="ListBySubject" asp-route-pageNumber="@(Model.NumberOfPages - 1)" class="pagination-link">@(Model.NumberOfPages - 1)</a>
+                            </li>
+                        }
+
+                        if (Model.CurrentPageNumber == Model.NumberOfPages)
+                        {
+                            <li class="pagination-item">
+                                <a class="pagination-link" style="background-color: white; color: blue; border: 1px solid blue;">@(Model.NumberOfPages)</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="pagination-item">
+                                <a asp-area="User" asp-controller="Home" asp-action="ListBySubject" asp-route-pageNumber="@(Model.NumberOfPages)" class="pagination-link">@(Model.NumberOfPages)</a>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <li class="pagination-item">
+                            <a asp-area="User" asp-controller="Home" asp-action="ListBySubject" asp-route-pageNumber="1" class="pagination-link">1</a>
+                        </li>
+                        <li class="pagination-item">
+                            <span class="pagination-disabled-link">...</span>
+                        </li>
+                        <li class="pagination-item">
+                            <a class="pagination-link" style="background-color: white; color: blue; border: 1px solid blue;">@(Model.CurrentPageNumber)</a>
+                        </li>
+                        <li class="pagination-item">
+                            <span class="pagination-disabled-link">...</span>
+                        </li>
+                        <li class="pagination-item">
+                            <a asp-area="User" asp-controller="Home" asp-action="ListBySubject" asp-route-pageNumber="@(Model.NumberOfPages)" class="pagination-link">@(Model.NumberOfPages)</a>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <li class="pagination-item">
+                        <a asp-area="User" asp-controller="Home" asp-action="ListBySubject" asp-route-pageNumber="1" class="pagination-link">1</a>
+                    </li>
+                    <li class="pagination-item">
+                        <span class="pagination-disabled-link">...</span>
+                    </li>
+                    <li class="pagination-item">
+                        <a class="pagination-link" style="background-color: white; color: blue; border: 1px solid blue;">@(Model.CurrentPageNumber)</a>
+                    </li>
+                    <li class="pagination-item">
+                        <span class="pagination-disabled-link">...</span>
+                    </li>
+                    <li class="pagination-item">
+                        <a asp-area="User" asp-controller="Home" asp-action="ListBySubject" asp-route-pageNumber="@(Model.NumberOfPages)" class="pagination-link">@(Model.NumberOfPages)</a>
+                    </li>
+                }
+            }
+        </ul>
+    }
+</div>

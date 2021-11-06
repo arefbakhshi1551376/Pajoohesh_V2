@@ -1,0 +1,53 @@
+﻿@model Pajoohesh_V2.Model.ViewModels.Branch.ForSite.ForRepository.Accounts.SignUpVm
+@{
+    Layout = "_Layout2";
+}
+<body class="full-height" style="height: 140vh;">
+    <div class="login-register-bg" style="background-image: url('../../images/login-register-bg.jpg');"></div>
+    <div class="login-register-card">
+        <h2 class="card-header">ثبت نام در سایت</h2>
+        <div>
+            <form asp-area="Identity" asp-controller="Account" asp-action="Signup" method="POST" id="signup-form" enctype="multipart/form-data">
+                <input type="text" placeholder="نام" id="signup-name" asp-for="FirstName" class="single-form-input">
+                <input type="text" placeholder="نام خانوادگی" id="signup-family" asp-for="LastName" class="single-form-input">
+                <input type="text" placeholder="نام کاربری" id="signup-user-name" asp-for="UserName" class="single-form-input">
+                <input type="text" placeholder="ایمیل" id="signup-email" asp-for="Email" class="single-form-input">
+                <div class="form-group full-width" style="padding: 0; margin-bottom: 10px;">
+                    <div class="form-file">
+                        <label for="image" class="form-file-label">انتخاب فایل</label>
+                        <input type="file" class="form-file-input" id="image" asp-for="ImageUrl" accept="image/png, image/jpeg, image/jpg">
+                        <span class="form-file-name">عکس</span>
+                    </div>
+                </div>
+                <input type="password" placeholder="کلمه عبور" id="signup-password" asp-for="Password" class="single-form-input">
+                <input type="password" placeholder="تکرار کلمه عبور" id="signup-confirm-password" asp-for="ConfirmPassword" class="single-form-input">
+                <span id="signup-messages" class="form-message success-message"></span>
+                <div class="remember-me-wrap">
+                    <input type="checkbox" id="Subscribe-me-to-the-newsletter" name="SubscribeMeToTheNewsletter" class="form-checkbox-input" value="yes" />
+                    <label for="Subscribe-me-to-the-newsletter" class="form-checkbox-label">مرا در خبرنامه عضو کن (این گزینه نیازمند تایید ایمیل شما می باشد)!</label>
+                </div>
+                <button id="signup-submit-button" type="submit" class="btn btn-login full-width">ثبت نام</button>
+            </form>
+            <span class="splitter"></span>
+            <span class="another-login-register-way">یا</span>
+            <ul class="another-ways-list">
+                <li class="another-way-item">
+                    <a href="#" class="another-way-link mdi mdi-google"></a>
+                </li>
+            </ul>
+            <a asp-area="Identity" asp-controller="Account" asp-action="Signin" class="btn btn-switch-login-register full-width">
+                <span class="primary-text">حساب کاربری دارید؟</span>
+                <span class="secondary-text">ورود به سایت</span>
+            </a>
+            <a asp-area="User" asp-controller="Home" asp-action="List" class="btn btn-home full-width">صفحه اصلی</a>
+        </div>
+    </div>
+
+    @section Scripts
+    {
+        <!-- Start Scripts -->
+        <script src="~/jquery/jquery-3.6.0.js"></script>
+        <!-- End Scripts -->
+        @*<script src="~/js/js/SignUpJs.js"></script>*@
+    }
+</body>

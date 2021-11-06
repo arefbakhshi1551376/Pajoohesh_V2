@@ -1,0 +1,31 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Pajoohesh_V2.Data.Initializer
+@using Pajoohesh_V2.Model.Models.Main.User
+@model Pajoohesh_V2.Model.ViewModels.Branch.ForSite.ForRepository.AboutUs.AboutUsShowVm
+@inject UserManager<User> _userManager;
+@{
+    var isAdmin = false;
+    if (User.Identity.IsAuthenticated)
+    {
+        var currentUser = await _userManager.FindByNameAsync(User.Identity.Name);
+        isAdmin = await _userManager.IsInRoleAsync(currentUser, Constants.AdminRole);
+    }
+}
+
+<div class="content">
+    <h2 class="content-header">درباره ما</h2>
+    <p id="about-us-context" class="about-us-content">
+        @Model.Text
+    </p>
+    @if (isAdmin)
+    {
+        @if (Model.Id != 0)
+        {
+            <a asp-area="User" asp-controller="About" asp-action="Edit" class="btn btn-load-more">ویرایش</a>
+        }
+        else
+        {
+            <a asp-area="User" asp-controller="About" asp-action="Add" class="btn btn-load-more">افزودن</a>
+        }
+    }
+</div>

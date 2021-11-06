@@ -1,0 +1,16 @@
+﻿@model Pajoohesh_V2.Model.ViewModels.Branch.ForSite.ForRepository.AboutUs.AboutUsAddVm 
+
+<div class="content">
+    <h2 class="content-header">اطلاعات سایت (درباره ما)</h2>
+    <form asp-area="User" asp-controller="About" asp-action="Add" method="POST" class="profile-form">
+        <div class="form-group full-width">
+            <label for="" class="form-label">عنوان:</label>
+            <input type="text" class="form-input" asp-for="Title">
+        </div>
+        <div class="form-group full-width">
+            <label for="" class="form-label">توضیحات:</label>
+            <textarea class="form-input" asp-for="Text"></textarea>
+        </div>
+        <button type="submit" class="btn btn-load-more">ذخیره</button>
+    </form>
+</div>
